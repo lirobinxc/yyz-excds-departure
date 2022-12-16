@@ -1,6 +1,7 @@
 {
   "name": "yyz-excds-departure",
   "version": "0.1.0",
+  "homepage": "https://lirobinxc.github.io/yyz-excds-departure",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
@@ -27,7 +28,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +53,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "@types/react-modal": "^3.13.1",
+    "gh-pages": "^4.0.0",
     "stylelint-order": "^5.0.0",
     "stylelint-semantic-groups": "^1.2.0"
   }

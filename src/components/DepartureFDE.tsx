@@ -96,11 +96,11 @@ function DepartureFDE({
           <div className={clsx('ETA')}>{ETA}Z</div>
           <div className={clsx('transponderCode')}>{transponderCode}</div>
         </div>
-        <div className={clsx('col3')}>
-          <div className={clsx('arrow')} onClick={handleClickAlt}>
+        <div className={clsx('col3')} onClick={handleClickAlt}>
+          {/* <div className={clsx('arrow')} >
             🡱
-          </div>
-          {/* <img src={upArrow} className="arrowPng" alt="departureArrow" /> */}
+          </div> */}
+          <img src={upArrow} className="arrowPng" alt="departureArrow" />
         </div>
         <div className={clsx('col4')}>
           <aside
