@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
 export enum WTC {
-  Light = 'Light',
-  Medium = 'Medium',
-  Heavy = 'Heavy',
-  Super = 'Super',
+  Light = 'L',
+  Medium = 'M',
+  Heavy = 'H',
+  Super = 'S',
 }
 
 export enum AcType {
@@ -22,13 +22,15 @@ export interface AircraftCollection {
 }
 
 const aircraftCollection: AircraftCollection = {
-  Light: { Jet: [], Prop: ['C208'] },
-  Medium: {
+  L: { Jet: [], Prop: ['C208'] },
+  M: {
     Jet: ['CRJ9', 'A310', 'A320', 'B738'],
     Prop: ['DH8A', 'DH8D'],
   },
-  Heavy: { Jet: ['A343', 'B744', 'B763'], Prop: [] },
+  H: { Jet: ['A343', 'B744', 'B763'], Prop: [] },
 };
+
+export type ACID = ReturnType<typeof genACID>;
 
 export function genACID() {
   let wtc: WTC = WTC.Medium;

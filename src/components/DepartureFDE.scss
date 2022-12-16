@@ -28,11 +28,15 @@ $babyblue: #c1e9f9;
 
   user-select: none;
 
+  @media (max-width: 480px) {
+    max-width: 99vw;
+  }
+
   .topRow {
     border-bottom: $borderThin;
 
     .col1 {
-      width: $fontSizeLg * 5.3;
+      width: 6.8rem;
 
       border-right: $borderThin;
       @include flexCenterVertical();
@@ -80,11 +84,14 @@ $babyblue: #c1e9f9;
       @include flexCenterHorizontal();
 
       @media (max-width: 480px) {
-        // width: 10%;
       }
 
       &:hover {
         background-color: darkgray;
+
+        @media (max-width: 480px) {
+          background-color: $babyblue;
+        }
       }
 
       .arrow {
@@ -122,6 +129,10 @@ $babyblue: #c1e9f9;
 
       &:hover {
         background-color: darkgray;
+
+        @media (max-width: 480px) {
+          background-color: $babyblue;
+        }
       }
 
       .assignedAlt {
@@ -194,6 +205,8 @@ $babyblue: #c1e9f9;
 
       border-right: $borderThin;
 
+      cursor: pointer;
+
       @include flexCenterHorizontal();
       @include flexCenterVertical();
 
@@ -202,7 +215,7 @@ $babyblue: #c1e9f9;
       }
 
       .assignedHeading {
-        font-size: $fontSizeLg;
+        font-size: $fontSizeMd;
       }
     }
 
@@ -241,7 +254,7 @@ $babyblue: #c1e9f9;
 
   .bottomRow {
     .col1 {
-      width: $fontSizeLg * 5.3;
+      width: 6.8rem;
 
       border-right: $borderThin;
 
@@ -279,7 +292,7 @@ $babyblue: #c1e9f9;
       // background-color: #ffff94;
 
       @media (max-width: 480px) {
-        // width: 10%;
+        width: 1rem;
       }
     }
 
@@ -340,7 +353,7 @@ $babyblue: #c1e9f9;
 }
 
 .colorRed {
-  color: red;
+  color: rgb(223, 21, 21);
 }
 
 .flexRow {

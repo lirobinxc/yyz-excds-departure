@@ -1,10 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import Modal from 'react-modal';
 
-import './DepartureFDE.scss';
 // import { ReactComponent as UpArrow } from '../images/up-arrow.svg';
 import upArrow from '../images/up-arrow.png';
+import { useAppDispatch } from '../state/hooks';
+
+import './DepartureFDE.scss';
+import { airborneListActions } from '../state/slices/airborneSlice';
+import { AcType } from '../functions/genACID';
+
+interface DepartureFDEProps {
+  acId: string;
+  acFullName: string;
+  acType: string;
+  assignedAlt: number;
+  coordinatedAlt?: number;
+  assignedHeading: string;
+  onCourseWP: string;
+  ETA: string;
+  runwayId: string;
+  transponderCode: string;
+  filedAlt: number;
+  filedRoute: string;
+  destination: string;
+  remarks?: string;
+  isNADP1?: boolean;
+  isQ400?: boolean;
+  departurePoint?: string;
+}
 
 function DepartureFDE({
   acId,
@@ -13,6 +36,7 @@ function DepartureFDE({
   assignedAlt,
   coordinatedAlt,
   assignedHeading,
+  onCourseWP,
   ETA,
   runwayId,
   transponderCode,
@@ -20,14 +44,16 @@ function DepartureFDE({
   filedRoute,
   destination,
   remarks,
-  isNADP1,
-  isQ400,
+  isNADP1 = false,
+  isQ400 = false,
   departurePoint,
-  handleRemove,
-}) {
+}: DepartureFDEProps) {
+  const dispatch = useAppDispatch();
+
   const [currentAlt, setCurrentAlt] = useState(assignedAlt);
   const [isCorrectAlt, setIsCorrectAlt] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [onCourse, setOnCourse] = useState(false);
 
   function handleClickAlt() {
     setCurrentAlt(currentAlt + 10);
@@ -44,6 +70,20 @@ function DepartureFDE({
   }
   function closeModal() {
     setIsModalOpen(false);
+  }
+
+  function handleOnCourse() {
+    setOnCourse(true);
+  }
+
+  function removeStrip() {
+    dispatch(airborneListActions.deleteStrip(acId));
+  }
+
+  function displayAssignedHeading() {
+    if (onCourse) return onCourseWP;
+    if (assignedHeading === 'No turns') return '';
+    return assignedHeading;
   }
 
   return (
@@ -63,19 +103,7 @@ function DepartureFDE({
           {/* <img src={upArrow} className="arrowPng" alt="departureArrow" /> */}
         </div>
         <div className={clsx('col4')}>
-          {/* <Modal
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            contentLabel="Options Modal"
-            ariaHideApp={false}
-            className="altModalContent"
-            // overlayClassName="altModalOverlay"
-          >
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-          </Modal> */}
-          <div
+          <aside
             className={clsx('altModalWrapper', { displayNone: !isModalOpen })}
           >
             <div className={clsx('altModalContent')}>
@@ -113,7 +141,7 @@ function DepartureFDE({
               </button>
             </div>
             <div className={clsx('altModalOverlay')} onClick={closeModal}></div>
-          </div>
+          </aside>
           <div className={clsx('assignedAlt')} onClick={openModal}>
             {currentAlt}
           </div>
@@ -121,13 +149,15 @@ function DepartureFDE({
         <div className={clsx('col5')}>
           <div className={clsx('remarks')}>{remarks}</div>
         </div>
-        <div className={clsx('col6')}>
-          <div className={clsx('assignedHeading')}>{assignedHeading}</div>
+        <div className={clsx('col6')} onClick={handleOnCourse}>
+          <div className={clsx('assignedHeading', { colorRed: !onCourse })}>
+            {displayAssignedHeading()}
+          </div>
         </div>
         <div className={clsx('col7')}>
-          <div className={clsx('isNADP1')}>{isNADP1 && 1}1</div>
+          <div className={clsx('isNADP1')}>{isNADP1 && 1}</div>
         </div>
-        <div className={clsx('col8')}>
+        <div className={clsx('col8')} onClick={removeStrip}>
           <div className={clsx('runwayId')}>{runwayId}</div>
         </div>
       </div>
@@ -138,7 +168,7 @@ function DepartureFDE({
         <div className={clsx('col2')}>
           <div
             className={clsx('filedAlt', {
-              colorRed: acType === 'jet' && filedAlt < 230,
+              colorRed: acType === AcType.Jet && filedAlt < 230,
             })}
           >
             {filedAlt}

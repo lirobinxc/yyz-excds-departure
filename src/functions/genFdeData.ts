@@ -2,14 +2,15 @@ import _ from 'lodash';
 import { AcType, genACID } from './genACID';
 import { genCallsign } from './genCallsign';
 import { genRoute } from './genRoute';
-
-import { RunwayId } from '../data/sidsCollection';
+import { RunwayId, SidData } from '../data/sidsCollection';
 import { destinationCollection } from '../data/destinationCollection';
 
 let currentHour = _.sample([12, 13, 14, 15, 16, 17, 18]) || 12;
 let currentMinute = 0;
 
-export function genFdeData(runwayId: RunwayId) {
+export type FDE = ReturnType<typeof genFdeData>;
+
+export function genFdeData(rwyId: RunwayId) {
   // Set timestamp
   const minuteJitter = _.sample([1, 1, 1, 1, 2, 2, 3]) || 1;
   currentMinute = currentMinute + minuteJitter;
@@ -41,20 +42,50 @@ export function genFdeData(runwayId: RunwayId) {
   }
 
   // Init route
-  const sid = genRoute(runwayId, ac.type);
+  const sid = genRoute(rwyId, ac.type) || ({} as SidData);
 
-  const filedRoute = `${sid.Name}${_.random(1, 5)}`;
+  // Init Rwy ID
+  function randomRwyId(): string {
+    let randomRwy: string | undefined = '';
+
+    if (rwyId === RunwayId['05, 06LR']) randomRwy = _.sample(['06L']);
+    if (rwyId === RunwayId['15LR']) randomRwy = _.sample(['15L']);
+    if (rwyId === RunwayId['23, 24LR']) randomRwy = _.sample(['24R']);
+    if (rwyId === RunwayId['33LR']) randomRwy = _.sample(['33R']);
+
+    return randomRwy || 'ERROR';
+  }
+
+  const runwayId = randomRwyId();
+
+  const filedRoute = `${sid.Name} ... ...`;
 
   // Assigned heading
-  let assignedHeading = sid['Prop or Jet Turns'];
+  let assignedHeading =
+    (sid['Aircraft type'] !== 'Jet' && sid['Prop or Jet Turns']) || '';
 
   // Init assigned altitude
   let assignedAlt = 30; // default PROP altitude
-  if (assignedHeading === 'No turns') assignedAlt = 50; // default JET altitude
+  if (assignedHeading === 'No turns' || sid['Aircraft type'] === 'Jet')
+    assignedAlt = 50; // default JET altitude
+
+  const onCourseWP = sid['Final WP'];
 
   // Randomly select a destination
   const destination =
     _.sample(destinationCollection) || destinationCollection[0];
+
+  const transponderCode = `${_.random(0, 7)}${_.random(0, 7)}${_.random(
+    0,
+    7
+  )}${_.random(0, 7)}`;
+
+  // Convert 'Handoff Alt' string to num
+  let handoffAlt = 230;
+
+  if (sid['Handoff Alt'] === 'FL230') handoffAlt = 230;
+  if (sid['Handoff Alt'] === '15,000') handoffAlt = 150;
+  if (sid['Handoff Alt'] === '8000') handoffAlt = 80;
 
   const fde = {
     debug: ac,
@@ -65,11 +96,9 @@ export function genFdeData(runwayId: RunwayId) {
     assignedAlt,
     // additionalInfo,
     assignedHeading,
+    onCourseWP,
     runwayId,
-    transponderCode: `${_.random(0, 7)}${_.random(0, 7)}${_.random(
-      0,
-      7
-    )}${_.random(0, 7)}`,
+    transponderCode,
     // assignedSpeed,
     filedAlt,
     // departurePoint,
@@ -77,6 +106,8 @@ export function genFdeData(runwayId: RunwayId) {
     destination,
     ETA: currentTime,
     isQ400: ac.isQ400,
+    isNADP1: false,
+    handoffAlt,
   };
 
   return fde;

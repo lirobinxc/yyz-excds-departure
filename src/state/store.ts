@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-// ...
+import { airborneListReducer } from './slices/airborneSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    airborneList: airborneListReducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

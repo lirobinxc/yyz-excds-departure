@@ -1,1 +1,39 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 
+  height: 100vh;
+
+  .headerRow {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.5rem;
+
+    h2 {
+      padding: 0.2rem;
+
+      font-size: 1rem;
+
+      background-color: lightgray;
+    }
+  }
+
+  .stripsRow {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+
+    width: 100vw;
+    height: 90vh;
+
+    background: darkgray;
+
+    overflow: auto;
+  }
+}

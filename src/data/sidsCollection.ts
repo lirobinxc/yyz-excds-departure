@@ -15,7 +15,7 @@ export interface SidData {
   'Final WP': string;
   'Further WP': string;
   'Prop or Jet Turns': string;
-  'Handoff Alt': string;
+  'Handoff Alt': string | number;
   'Alt Handoff Alt': string;
   'Handoff Sector': string;
   'Handoff Freq': string;
@@ -200,7 +200,7 @@ export const sidsCollection: SidsCollection = {
     Prop: [
       {
         Name: 'BOMET',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'AVROS',
         'Route WP': '',
         'Final WP': 'TESUK',
@@ -213,7 +213,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'MAVAN',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'PERLO',
         'Route WP': '',
         'Final WP': 'RIKEM',
@@ -226,7 +226,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'TEVAD',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'PERLO',
         'Route WP': 'NADUM',
         'Final WP': 'TEVAD',
@@ -239,7 +239,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'DUSOM',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'PERLO',
         'Route WP': 'OMAPA',
         'Final WP': 'DUSOM',
@@ -252,7 +252,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'OAKVL',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'PERLO',
         'Route WP': 'OMAPA',
         'Final WP': 'OAKVL',
@@ -265,7 +265,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'PEMBA',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'PERLO',
         'Route WP': 'OMAPA',
         'Final WP': 'ANCOL',
@@ -278,7 +278,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'PERLO',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'PERLO',
         'Route WP': 'OMAPA',
         'Final WP': 'ANCOL',
@@ -291,7 +291,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'TULEK',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'MEMPA',
         'Route WP': 'SIDVU',
         'Final WP': 'TULEK',
@@ -304,7 +304,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'LAKES',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'SEDOG',
@@ -317,7 +317,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'EBKIN',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'EBKIN',
@@ -330,7 +330,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'MATES',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'IKLEN',
@@ -343,7 +343,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'NOSIK',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'MEMPA',
         'Route WP': 'SIDVU',
         'Final WP': 'URSAL',
@@ -356,7 +356,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'NUGOP',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'MEMPA',
         'Route WP': 'SIDVU',
         'Final WP': 'AVSEP',
@@ -544,7 +544,7 @@ export const sidsCollection: SidsCollection = {
     Prop: [
       {
         Name: 'BOMET',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'DAVSI',
         'Route WP': '',
         'Final WP': 'TESUK',
@@ -557,7 +557,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'MAVAN',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'RIKEM',
@@ -570,7 +570,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'TEVAD',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'NADUM',
         'Route WP': '',
         'Final WP': 'TEVAD',
@@ -583,7 +583,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'DUSOM',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'DUSOM',
@@ -596,7 +596,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'OAKVL',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'OAKVL',
@@ -609,7 +609,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'PEMBA',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'MIXUT',
@@ -622,7 +622,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'PERLO',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'MIXUT',
@@ -635,7 +635,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'TULEK',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'IPSOT',
         'Route WP': '',
         'Final WP': 'TULEK',
@@ -648,7 +648,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'LAKES',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'ETLER',
         'Route WP': '',
         'Final WP': 'SEDOG',
@@ -661,7 +661,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'EBKIN',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'ETLER',
         'Route WP': '',
         'Final WP': 'EBKIN',
@@ -674,7 +674,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'MATES',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'ETLER',
         'Route WP': '',
         'Final WP': 'IKLEN',
@@ -687,7 +687,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'NOSIK',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'IPSOT',
         'Route WP': '',
         'Final WP': 'URSAL',
@@ -700,7 +700,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'NUGOP',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'IPSOT',
         'Route WP': '',
         'Final WP': 'URSAL',
@@ -888,7 +888,7 @@ export const sidsCollection: SidsCollection = {
     Prop: [
       {
         Name: 'BOMET',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'MAVAN',
         'Route WP': 'GAGPO, DAVSI',
         'Final WP': 'TESUK',
@@ -901,7 +901,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'MAVAN',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'MAVAN',
         'Route WP': '',
         'Final WP': 'RIKEM',
@@ -914,7 +914,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'TEVAD',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'MAVAN',
         'Route WP': 'NADUM',
         'Final WP': 'TEVAD',
@@ -927,7 +927,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'DUSOM',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'SAVUR',
         'Route WP': '',
         'Final WP': 'DUSOM',
@@ -940,7 +940,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'OAKVL',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'SAVUR',
         'Route WP': '',
         'Final WP': 'OAKVL',
@@ -953,7 +953,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'PEMBA',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'TILAM',
         'Route WP': '',
         'Final WP': 'MIXUT',
@@ -966,7 +966,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'PERLO',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'TILAM',
         'Route WP': '',
         'Final WP': 'MIXUT',
@@ -979,7 +979,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'TULEK',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'TULEK',
@@ -992,7 +992,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'LAKES',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'MATES',
         'Route WP': '',
         'Final WP': 'SEDOG',
@@ -1005,7 +1005,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'EBKIN',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'MATES',
         'Route WP': '',
         'Final WP': 'EBKIN',
@@ -1018,7 +1018,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'MATES',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'MATES',
         'Route WP': '',
         'Final WP': 'IKLEN',
@@ -1031,7 +1031,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'NOSIK',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'URSAL',
@@ -1044,7 +1044,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'NUGOP',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'AVSEP',
@@ -1232,7 +1232,7 @@ export const sidsCollection: SidsCollection = {
     Prop: [
       {
         Name: 'BOMET',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'NUBAN',
         'Route WP': 'AVROS',
         'Final WP': 'TESUK',
@@ -1245,7 +1245,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'MAVAN',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'NUBAN',
         'Route WP': 'IGTUL',
         'Final WP': 'RIKEM',
@@ -1258,7 +1258,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'TEVAD',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'NUBAN',
         'Route WP': 'IGTUL, NADUM',
         'Final WP': 'TEVAD',
@@ -1271,7 +1271,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'DUSOM',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'SERPI',
         'Route WP': '',
         'Final WP': 'DUSOM',
@@ -1284,7 +1284,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'OAKVL',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'SERPI',
         'Route WP': '',
         'Final WP': 'OAKVL',
@@ -1297,7 +1297,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'PEMBA',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'SERPI',
         'Route WP': '',
         'Final WP': 'MIXUT',
@@ -1310,7 +1310,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'PERLO',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': 'SERPI',
         'Route WP': '',
         'Final WP': 'MIXUT',
@@ -1323,7 +1323,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'TULEK',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'TULEK',
@@ -1336,7 +1336,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'LAKES',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'SEDOG',
@@ -1349,7 +1349,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'EBKIN',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'EBKIN',
@@ -1362,7 +1362,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'MATES',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'IKLEN',
@@ -1375,7 +1375,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'NOSIK',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'URSAL',
@@ -1388,7 +1388,7 @@ export const sidsCollection: SidsCollection = {
       },
       {
         Name: 'NUGOP',
-        'Aircraft type': 'Non-jet',
+        'Aircraft type': 'Prop',
         'First WP': '',
         'Route WP': '',
         'Final WP': 'AVSEP',

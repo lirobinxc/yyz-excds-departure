@@ -1,31 +1,58 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import useInterval from 'use-interval';
 import Modal from 'react-modal';
 
 import './App.scss';
 import DepartureFDE from './components/DepartureFDE';
-import { genFdeData } from './functions/genFdeData';
+import { genFdeData, FDE } from './functions/genFdeData';
+import { RunwayId } from './data/sidsCollection';
+import { useAppSelector, useAppDispatch } from './state/hooks';
+import {
+  airborneListActions,
+  selectAirborneList,
+} from './state/slices/airborneSlice';
 
-const defaultDepSequence = [];
-for (let i = 1; i < 7; i++) {
-  defaultDepSequence.push(genFdeData(localStorage.getItem('runwayId') || '09'));
+interface ILocalStorage extends Storage {
+  runwayId?: RunwayId;
+  totalItems?: number;
+  timedAdd?: number;
 }
 
+const localStorage: ILocalStorage = window.localStorage;
+
+// const localStorageRunwayId =
+//   (localStorage.getItem('runwayId') as RunwayId) || RunwayId['05, 06LR'];
+// console.log(localStorageRunwayId);
+
 function App() {
-  const [sequence, setSequence] = useState(defaultDepSequence);
+  const dispatch = useAppDispatch();
+
+  const airborneList = useAppSelector(selectAirborneList);
+
   const [options, setOptions] = useState({
-    totalItems: localStorage.getItem('totalItems') || 6,
-    timedAdd: localStorage.getItem('timedAdd') || 6,
-    runwayId: localStorage.getItem('runwayId') || '09',
+    count: Number(localStorage.getItem('count')) || 6,
+    timedAdd: Number(localStorage.getItem('timedAdd')) || 6,
+    runwayId:
+      (localStorage.getItem('runwayId') as RunwayId) || RunwayId['05, 06LR'],
   });
+  // const [options, setOptions] = useState({
+  //   count: 6,
+  //   timedAdd: 6,
+  //   runwayId: RunwayId['05, 06LR'],
+  // });
   const [modalIsOpen, setIsOpen] = useState(false);
   const [timedAddEnabled, setTimedAddEnabled] = useState(false);
 
   useEffect(() => {
-    refreshSeq();
+    dispatch(
+      airborneListActions.refreshStrips({
+        runwayId: options.runwayId,
+        count: options.count,
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options.totalItems, options.runwayId]);
+  }, [options.count, options.runwayId]);
 
   function openModal() {
     setIsOpen(true);
@@ -35,59 +62,52 @@ function App() {
   }
 
   function refreshSeq() {
-    const newSeq = [];
-    for (let i = 0; i < options.totalItems; i++) {
-      newSeq.push(genFdeData(options.runwayId));
-    }
-
-    setSequence(newSeq);
+    dispatch(
+      airborneListActions.refreshStrips({
+        runwayId: options.runwayId,
+        count: options.count,
+      })
+    );
   }
 
-  function setTotalItems(e) {
-    let value = e.target.value;
+  function setCount(e: React.FormEvent) {
+    const target = e.target as HTMLTextAreaElement;
+    let value = Number(target.value);
 
+    if (isNaN(value)) value = 6;
     if (value > 99) value = 99;
     if (value < 1) value = 1;
-    if (isNaN(value)) value = 6;
 
-    localStorage.setItem('totalItems', value);
-    setOptions({ ...options, totalItems: value });
+    localStorage.setItem('count', value.toString());
+    setOptions({ ...options, count: value });
   }
 
-  function setTimedAdd(e) {
-    let value = e.target.value;
+  function setTimedAdd(e: React.FormEvent) {
+    const target = e.target as HTMLTextAreaElement;
+    let value = Number(target.value);
 
     if (value < 1 || isNaN(value)) value = 6;
 
-    localStorage.setItem('timedAdd', value);
+    localStorage.setItem('timedAdd', value.toString());
     setOptions({ ...options, timedAdd: value });
   }
 
-  function setRunwayId(e) {
-    let value = e.target.value;
+  function setRunwayId(e: React.FormEvent) {
+    const target = e.target as HTMLTextAreaElement;
+    let value = target.value as RunwayId;
 
     localStorage.setItem('runwayId', value);
     setOptions({ ...options, runwayId: value });
-  }
-
-  function handleRemove(acId) {
-    console.log('delete', acId);
-    const newSeq = sequence.filter((el) => el.acId !== acId);
-
-    setSequence(newSeq);
   }
 
   useInterval(() => {
     if (!timedAddEnabled) return;
     console.log('ADDED NEW STRIP');
 
-    const newSeq = _.cloneDeep(sequence);
-    newSeq.push(genFdeData(options.runwayId));
-
-    setSequence(newSeq);
+    dispatch(airborneListActions.addStrip(options.runwayId));
   }, 1000 * options.timedAdd);
 
-  console.log(sequence);
+  console.log(airborneList);
   return (
     <div className="App">
       <div className="headerRow">
@@ -97,7 +117,7 @@ function App() {
             Refresh
           </button>
           <label>
-            Enable "Timed Add" mode
+            "Timed Add" mode
             <input
               type="checkbox"
               checked={timedAddEnabled}
@@ -111,10 +131,14 @@ function App() {
               onChange={setRunwayId}
               defaultValue={options.runwayId}
             >
-              <option value="09">RWY 05, 06LR</option>
-              <option value="27">RWY 27</option>
-              <option value="27">RWY 27</option>
-              <option value="27">RWY 27</option>
+              <option value={RunwayId['05, 06LR']}>
+                {RunwayId['05, 06LR']}
+              </option>
+              <option value={RunwayId['15LR']}>{RunwayId['15LR']}</option>
+              <option value={RunwayId['23, 24LR']}>
+                {RunwayId['23, 24LR']}
+              </option>
+              <option value={RunwayId['33LR']}>{RunwayId['33LR']}</option>
             </select>
           </label>
           <button onClick={openModal}>Options</button>
@@ -140,8 +164,8 @@ function App() {
               <input
                 type="number"
                 name="totalItems"
-                defaultValue={options.totalItems}
-                onChange={setTotalItems}
+                defaultValue={options.count}
+                onChange={setCount}
               />
               <br />
               <h3>"Timed Add" mode options (adds new strip every X seconds)</h3>
@@ -168,16 +192,9 @@ function App() {
         </Modal>
       </div>
       <div className="stripsRow">
-        {sequence
+        {airborneList
           .map((el) => {
-            return (
-              <DepartureFDE
-                key={el.acId}
-                value={el.acId}
-                {...el}
-                handleRemove={() => handleRemove(el.acId)}
-              />
-            );
+            return <DepartureFDE key={el.acId} {...el} />;
           })
           .reverse()}
       </div>
