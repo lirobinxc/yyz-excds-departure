@@ -1,41 +1,5 @@
 import _ from 'lodash';
-
-const callsigns = [
-  'AAL',
-  'ACA',
-  'AFR',
-  'BAW',
-  'ASP',
-  'BWA',
-  'CAV',
-  'CMS',
-  'CNK',
-  'COA',
-  'DAL',
-  'EGF',
-  'ETH',
-  'ETD',
-  'FAB',
-  'GGN',
-  'GLR',
-  'JAL',
-  'JZA',
-  'KBA',
-  'KEE',
-  'LXJ',
-  'MAL',
-  'MES',
-  'MPE',
-  'NCB',
-  'PAG',
-  'PUL',
-  'ROU',
-  'TGO',
-  'UAL',
-  'UPS',
-  'WEW',
-  'WJA',
-];
+import { callsigns } from '../data/callsignCollection';
 
 export function genCallsign() {
   const random = _.random(1, 5);
@@ -44,5 +8,8 @@ export function genCallsign() {
 
   if (random > 3) num = _.random(1000, 9999);
 
-  return `${_.sample(callsigns)}${num}`;
+  const operatorOnly = _.sample(callsigns);
+  const fullCallsign = `${operatorOnly}${num}`;
+
+  return { operatorOnly, fullCallsign };
 }

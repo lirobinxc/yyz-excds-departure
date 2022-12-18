@@ -97,9 +97,6 @@ function DepartureFDE({
           <div className={clsx('transponderCode')}>{transponderCode}</div>
         </div>
         <div className={clsx('col3')} onClick={handleClickAlt}>
-          {/* <div className={clsx('arrow')} >
-            🡱
-          </div> */}
           <img src={upArrow} className="arrowPng" alt="departureArrow" />
         </div>
         <div className={clsx('col4')}>
@@ -107,38 +104,50 @@ function DepartureFDE({
             className={clsx('altModalWrapper', { displayNone: !isModalOpen })}
           >
             <div className={clsx('altModalContent')}>
-              <button
-                onClick={() => {
-                  setCurrentAlt(80);
-                  closeModal();
-                }}
-              >
-                80
-              </button>
-              <button
-                onClick={() => {
-                  setCurrentAlt(90);
-                  closeModal();
-                }}
-              >
-                90
-              </button>
-              <button
-                onClick={() => {
-                  setCurrentAlt(150);
-                  closeModal();
-                }}
-              >
-                150
-              </button>
-              <button
-                onClick={() => {
-                  setCurrentAlt(230);
-                  closeModal();
-                }}
-              >
-                230
-              </button>
+              <div className="row1">
+                <button
+                  onClick={() => {
+                    setCurrentAlt(assignedAlt);
+                    closeModal();
+                  }}
+                >
+                  Reset
+                </button>
+              </div>
+              <div className="row2">
+                <button
+                  onClick={() => {
+                    setCurrentAlt(80);
+                    closeModal();
+                  }}
+                >
+                  80
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrentAlt(90);
+                    closeModal();
+                  }}
+                >
+                  90
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrentAlt(150);
+                    closeModal();
+                  }}
+                >
+                  150
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrentAlt(230);
+                    closeModal();
+                  }}
+                >
+                  230
+                </button>
+              </div>
             </div>
             <div className={clsx('altModalOverlay')} onClick={closeModal}></div>
           </aside>

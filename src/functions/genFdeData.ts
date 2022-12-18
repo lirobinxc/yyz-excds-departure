@@ -29,12 +29,26 @@ export function genFdeData(rwyId: RunwayId) {
   // Init aircraft
   const ac = genACID();
 
+  // Gen Callsign
+  const acId = genCallsign();
+
+  // Check if MALs
+  if (acId.operatorOnly === 'MAL') {
+    ac.acName = 'C208';
+    ac.type = AcType.Prop;
+    ac.isQ400 = false;
+  }
+
   // Set filed speed and altitude
   let filedTAS = 999;
   let filedAlt = 999;
   if (ac.type === AcType.Prop) {
     filedTAS = _.sample([293, 275]) || 275;
     filedAlt = _.sample([60, 160, 190, 220, 250]) || 220;
+    if ((ac.acName = 'C208')) {
+      filedTAS = 180;
+      filedAlt = 80;
+    }
   }
   if (ac.type === AcType.Jet) {
     filedTAS = _.sample([349, 374]) || 349;
@@ -89,9 +103,9 @@ export function genFdeData(rwyId: RunwayId) {
 
   const fde = {
     debug: ac,
-    acId: genCallsign(),
+    acId: acId.fullCallsign,
     acType: ac.type,
-    acFullName: ac.fullName,
+    acFullName: `${ac.wtc}/${ac.acName}/${ac.equipment}`,
     filedTAS,
     assignedAlt,
     // additionalInfo,

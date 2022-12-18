@@ -111,7 +111,7 @@ function App() {
   return (
     <div className="App">
       <div className="headerRow">
-        <h2>YYZ Departure EXCDS v1.1</h2>
+        <h2>YYZ Departure EXCDS v1.3</h2>
         <div className="optionsRow">
           <button className="refreshButton" onClick={refreshSeq}>
             Refresh
@@ -191,7 +191,7 @@ function App() {
           </div>
         </Modal>
       </div>
-      <div className="stripsRow">
+      <div className="stripsRowOnly">
         {airborneList
           .map((el) => {
             return <DepartureFDE key={el.acId} {...el} />;

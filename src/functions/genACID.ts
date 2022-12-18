@@ -65,7 +65,6 @@ export function genACID() {
   let isQ400 = acName === 'DH8D' ? true : false;
 
   const ACID = {
-    fullName: `${wtc}/${acName}/${equipment}`,
     acName,
     wtc,
     type: acType,

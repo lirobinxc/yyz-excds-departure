@@ -159,22 +159,33 @@ $babyblue: #c1e9f9;
           z-index: 999;
 
           display: flex;
-          flex-direction: row;
+          flex-direction: column;
 
-          height: 4rem;
+          height: 5rem;
           padding: 0.5rem;
 
           border: 1px solid grey;
 
           background: lightgray;
 
-          button {
-            margin: 0.25rem;
+          .row1 {
+            margin-bottom: 1rem;
+            @include flexCenterHorizontal();
+            @include flexCenterVertical();
+          }
 
-            font-weight: bold;
-            font-size: $fontSizeXl;
+          .row2 {
+            display: flex;
+            flex-direction: row;
 
-            cursor: pointer;
+            button {
+              margin: 0.25rem;
+
+              font-weight: bold;
+              font-size: $fontSizeXl;
+
+              cursor: pointer;
+            }
           }
         }
 
