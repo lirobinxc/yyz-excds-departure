@@ -33,7 +33,7 @@ export function genSatFdeData(rwyId: RunwayId) {
   // Gen route
   let route = genSatRoute(rwyId, aircraft.type) || ({} as SatelliteData);
   while (route.isRare) {
-    if (_.random(1, 10) > 9) break;
+    if (_.random(1, 100) > 95) break;
 
     route = genSatRoute(rwyId, aircraft.type) || ({} as SatelliteData);
   }
@@ -90,7 +90,7 @@ export function genSatFdeData(rwyId: RunwayId) {
   // Randomly select a destination
   let destination = _.sample(destinationCollection) || destinationCollection[0];
 
-  if (isArrival) {
+  if (isArrival || route.Destination) {
     destination = route.Destination;
   }
   const transponderCode = `${_.random(0, 7)}${_.random(0, 7)}${_.random(
