@@ -123,7 +123,7 @@ function App() {
   return (
     <div className="App">
       <div className="headerRow">
-        <h2>YYZ Departure EXCDS v1.4</h2>
+        <h2>YYZ Departure EXCDS v1.4a</h2>
         <div className="optionsRow">
           <button className="refreshButton" onClick={refreshSeq}>
             Refresh

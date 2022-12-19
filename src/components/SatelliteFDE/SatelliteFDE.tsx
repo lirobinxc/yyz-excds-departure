@@ -46,7 +46,9 @@ function SatelliteFDE({
   const isDeparture = satType === 'Departure';
   const isOverflight = satType === 'Overflight';
 
-  const isHandoffAlt = currentAlt === Number(satFdeData.ExitAltitude);
+  const hasExitAltitude = satFdeData.ExitAltitude !== '';
+  let isHandoffAlt =
+    hasExitAltitude && currentAlt === Number(satFdeData.ExitAltitude);
 
   function increaseAlt() {
     if (currentAlt % 10 === 5) {
