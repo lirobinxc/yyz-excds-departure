@@ -3,11 +3,11 @@ import { RunwayId, sidsCollection } from '../data/sidsCollection';
 
 import { AcType } from './genACID';
 
-export function genRoute(runwayId: RunwayId, acType: AcType) {
-  console.log({ genRouteRwyId: runwayId });
+export function genDepRoute(runwayId: RunwayId, acType: AcType) {
   if (!sidsCollection[runwayId]) return;
 
   const selectedSidsArr = sidsCollection[runwayId][acType];
+  const randomRoute = _.sample(selectedSidsArr);
 
-  return _.sample(selectedSidsArr);
+  return randomRoute;
 }

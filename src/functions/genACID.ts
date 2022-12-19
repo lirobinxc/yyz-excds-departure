@@ -60,12 +60,12 @@ export function genACID() {
   if (wtc === WTC.Medium && num1to10 <= 4) acType = AcType.Prop;
   if (wtc === WTC.Light) acType = AcType.Prop;
 
-  const acName = _.sample(aircraftCollection[wtc][acType]);
+  const model = _.sample(aircraftCollection[wtc][acType]);
 
-  let isQ400 = acName === 'DH8D' ? true : false;
+  let isQ400 = model === 'DH8D' ? true : false;
 
   const ACID = {
-    acName,
+    model,
     wtc,
     type: acType,
     equipment,

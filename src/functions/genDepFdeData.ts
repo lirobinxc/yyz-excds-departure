@@ -1,16 +1,17 @@
 import _ from 'lodash';
 import { AcType, genACID } from './genACID';
 import { genCallsign } from './genCallsign';
-import { genRoute } from './genRoute';
+import { genDepRoute } from './genDepRoute';
 import { RunwayId, SidData } from '../data/sidsCollection';
 import { destinationCollection } from '../data/destinationCollection';
+import { SatelliteData } from '../data/satelliteCollection';
 
 let currentHour = _.sample([12, 13, 14, 15, 16, 17, 18]) || 12;
 let currentMinute = 0;
 
-export type FDE = ReturnType<typeof genFdeData>;
+export type DepFDE = ReturnType<typeof genDepFdeData>;
 
-export function genFdeData(rwyId: RunwayId) {
+export function genDepFdeData(rwyId: RunwayId) {
   // Set timestamp
   const minuteJitter = _.sample([1, 1, 1, 1, 2, 2, 3]) || 1;
   currentMinute = currentMinute + minuteJitter;
@@ -26,37 +27,31 @@ export function genFdeData(rwyId: RunwayId) {
     currentMinute
   ).padStart(2, '0')}`;
 
-  // Init aircraft
-  const ac = genACID();
+  // Gen aircraft
+  const aircraft = genACID();
 
   // Gen Callsign
-  const acId = genCallsign();
-
-  // Check if MALs
-  if (acId.operatorOnly === 'MAL') {
-    ac.acName = 'C208';
-    ac.type = AcType.Prop;
-    ac.isQ400 = false;
-  }
+  const isC208 = aircraft.model === 'C208';
+  const callsign = genCallsign({ isC208 });
 
   // Set filed speed and altitude
   let filedTAS = 999;
   let filedAlt = 999;
-  if (ac.type === AcType.Prop) {
+  if (aircraft.type === AcType.Prop) {
     filedTAS = _.sample([293, 275]) || 275;
     filedAlt = _.sample([60, 160, 190, 220, 250]) || 220;
-    if ((ac.acName = 'C208')) {
+    if (aircraft.model === 'C208') {
       filedTAS = 180;
       filedAlt = 80;
     }
   }
-  if (ac.type === AcType.Jet) {
+  if (aircraft.type === AcType.Jet) {
     filedTAS = _.sample([349, 374]) || 349;
     filedAlt = _.sample([220, 310, 330, 350, 360]) || 350;
   }
 
   // Init route
-  const sid = genRoute(rwyId, ac.type) || ({} as SidData);
+  const sid = genDepRoute(rwyId, aircraft.type) || ({} as SidData);
 
   // Init Rwy ID
   function randomRwyId(): string {
@@ -70,7 +65,7 @@ export function genFdeData(rwyId: RunwayId) {
     return randomRwy || 'ERROR';
   }
 
-  const runwayId = randomRwyId();
+  const yyzRunwayId = randomRwyId();
 
   const filedRoute = `${sid.Name} ... ...`;
 
@@ -101,28 +96,34 @@ export function genFdeData(rwyId: RunwayId) {
   if (sid['Handoff Alt'] === '15,000') handoffAlt = 150;
   if (sid['Handoff Alt'] === '8000') handoffAlt = 80;
 
-  const fde = {
-    debug: ac,
-    acId: acId.fullCallsign,
-    acType: ac.type,
-    acFullName: `${ac.wtc}/${ac.acName}/${ac.equipment}`,
-    filedTAS,
+  const acFullName = `${aircraft.wtc}/${aircraft.model}/${aircraft.equipment}`;
+
+  // const satRouteData = genSatFdeData(rwyId);
+
+  const depFDE = {
+    acFullName,
+    acId: callsign.fullCallsign,
+    acType: aircraft.type,
     assignedAlt,
-    // additionalInfo,
     assignedHeading,
-    onCourseWP,
-    runwayId,
-    transponderCode,
-    // assignedSpeed,
-    filedAlt,
-    // departurePoint,
-    filedRoute,
+    coordinatedAlt: 0,
+    debugACID: aircraft,
+    departurePoint: '',
     destination,
     ETA: currentTime,
-    isQ400: ac.isQ400,
-    isNADP1: false,
+    filedAlt,
+    filedRoute,
+    filedTAS,
     handoffAlt,
+    isNADP1: false,
+    isQ400: aircraft.isQ400,
+    isSatellite: false,
+    onCourseWP,
+    remarks: '',
+    transponderCode,
+    yyzRunwayId,
+    satFdeData: {} as SatelliteData,
   };
 
-  return fde;
+  return depFDE;
 }

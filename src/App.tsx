@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
 import useInterval from 'use-interval';
 import Modal from 'react-modal';
 
 import './App.scss';
-import DepartureFDE from './components/DepartureFDE';
-import { genFdeData, FDE } from './functions/genFdeData';
+import DepartureFDE from './components/DepartureFDE/DepartureFDE';
 import { RunwayId } from './data/sidsCollection';
 import { useAppSelector, useAppDispatch } from './state/hooks';
 import {
   airborneListActions,
   selectAirborneList,
 } from './state/slices/airborneSlice';
+import SatelliteFDE from './components/SatelliteFDE/SatelliteFDE';
 
 interface ILocalStorage extends Storage {
   runwayId?: RunwayId;
   totalItems?: number;
   timedAdd?: number;
+  onlySatellites?: boolean;
 }
 
 const localStorage: ILocalStorage = window.localStorage;
@@ -35,12 +35,10 @@ function App() {
     timedAdd: Number(localStorage.getItem('timedAdd')) || 6,
     runwayId:
       (localStorage.getItem('runwayId') as RunwayId) || RunwayId['05, 06LR'],
+    onlySatellites:
+      localStorage.getItem('onlySatellites')?.toLocaleLowerCase() === 'true' ||
+      false,
   });
-  // const [options, setOptions] = useState({
-  //   count: 6,
-  //   timedAdd: 6,
-  //   runwayId: RunwayId['05, 06LR'],
-  // });
   const [modalIsOpen, setIsOpen] = useState(false);
   const [timedAddEnabled, setTimedAddEnabled] = useState(false);
 
@@ -49,6 +47,7 @@ function App() {
       airborneListActions.refreshStrips({
         runwayId: options.runwayId,
         count: options.count,
+        onlySatellites: options.onlySatellites,
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,6 +65,7 @@ function App() {
       airborneListActions.refreshStrips({
         runwayId: options.runwayId,
         count: options.count,
+        onlySatellites: options.onlySatellites,
       })
     );
   }
@@ -100,18 +100,30 @@ function App() {
     setOptions({ ...options, runwayId: value });
   }
 
+  useEffect(() => {
+    localStorage.setItem(
+      'onlySatellites',
+      options.onlySatellites ? 'true' : 'false'
+    );
+  }, [options.onlySatellites]);
+
   useInterval(() => {
     if (!timedAddEnabled) return;
     console.log('ADDED NEW STRIP');
 
-    dispatch(airborneListActions.addStrip(options.runwayId));
+    dispatch(
+      airborneListActions.addStrip({
+        rwyId: options.runwayId,
+        onlySatellites: options.onlySatellites,
+      })
+    );
   }, 1000 * options.timedAdd);
 
   console.log(airborneList);
   return (
     <div className="App">
       <div className="headerRow">
-        <h2>YYZ Departure EXCDS v1.3</h2>
+        <h2>YYZ Departure EXCDS v1.4</h2>
         <div className="optionsRow">
           <button className="refreshButton" onClick={refreshSeq}>
             Refresh
@@ -168,6 +180,19 @@ function App() {
                 onChange={setCount}
               />
               <br />
+              <label>
+                Only show Satellite strips{' '}
+                <input
+                  type="checkbox"
+                  checked={options.onlySatellites}
+                  onChange={() =>
+                    setOptions({
+                      ...options,
+                      onlySatellites: !options.onlySatellites,
+                    })
+                  }
+                />
+              </label>
               <h3>"Timed Add" mode options (adds new strip every X seconds)</h3>
               <label>
                 Timed add interval (min 1 second){' '}
@@ -178,6 +203,7 @@ function App() {
                   onChange={setTimedAdd}
                 />
               </label>
+              <br />
             </form>
             <div style={{ alignSelf: 'center', paddingTop: '50vh' }}>
               <a
@@ -194,6 +220,11 @@ function App() {
       <div className="stripsRowOnly">
         {airborneList
           .map((el) => {
+            console.log({ el });
+            if (el.isSatellite) {
+              return <SatelliteFDE key={el.acId} {...el} />;
+            }
+
             return <DepartureFDE key={el.acId} {...el} />;
           })
           .reverse()}
