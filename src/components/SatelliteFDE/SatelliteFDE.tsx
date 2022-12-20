@@ -52,8 +52,15 @@ function SatelliteFDE({
     satFdeData.Destination === 'CYOO';
 
   const hasExitAltitude = satFdeData.ExitAltitude !== '';
-  let isHandoffAlt =
-    hasExitAltitude && currentAlt === Number(satFdeData.ExitAltitude);
+
+  function isCorrectHandoffAlt() {
+    if (!hasExitAltitude) return false;
+
+    if (filedAlt < Number(satFdeData.ExitAltitude)) {
+      return currentAlt === filedAlt;
+    }
+    return currentAlt === Number(satFdeData.ExitAltitude);
+  }
 
   function increaseAlt() {
     if (currentAlt % 10 === 5) {
@@ -131,7 +138,7 @@ function SatelliteFDE({
     return (
       <div
         className={clsx(styles.col8, {
-          [styles.bgCorrectAlt]: isHandoffAlt,
+          [styles.bgCorrectAlt]: isCorrectHandoffAlt(),
           [styles.borderRight]: isYpqOrYooArrival,
         })}
         onClick={removeStrip}

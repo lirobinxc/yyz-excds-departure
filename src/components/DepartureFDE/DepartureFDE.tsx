@@ -58,7 +58,12 @@ function DepartureFDE({
   const [onCourse, setOnCourse] = useState(false);
   const [isAirborne, setIsAirborne] = useState(false);
 
-  const isHandoffAlt = currentAlt === Number(handoffAlt);
+  function isCorrectHandoffAlt() {
+    if (filedAlt < Number(handoffAlt)) {
+      return currentAlt === filedAlt;
+    }
+    return currentAlt === Number(handoffAlt);
+  }
 
   function handleClickAlt() {
     setCurrentAlt(currentAlt + 10);
@@ -146,11 +151,11 @@ function DepartureFDE({
                 </button>
                 <button
                   onClick={() => {
-                    setCurrentAlt(130);
+                    setCurrentAlt(200);
                     closeModal();
                   }}
                 >
-                  130
+                  200
                 </button>
               </div>
               <div className={styles.row2}>
@@ -213,7 +218,9 @@ function DepartureFDE({
           <div className={clsx(styles.isNADP1)}>{isNADP1 && 1}</div>
         </div>
         <div
-          className={clsx(styles.col8, { [styles.bgGreen]: isHandoffAlt })}
+          className={clsx(styles.col8, {
+            [styles.bgGreen]: isCorrectHandoffAlt(),
+          })}
           onClick={removeStrip}
         >
           <div className={clsx(styles.runwayId)}>{yyzRunwayId}</div>
