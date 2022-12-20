@@ -161,7 +161,7 @@ $babyblue: #c1e9f9;
           display: flex;
           flex-direction: column;
 
-          height: 5rem;
+          height: 8rem;
           padding: 0.5rem;
 
           border: 1px solid grey;
@@ -177,6 +177,7 @@ $babyblue: #c1e9f9;
           .row2 {
             display: flex;
             flex-direction: row;
+            @include flexCenterHorizontal();
 
             button {
               margin: 0.25rem;
@@ -374,6 +375,10 @@ $babyblue: #c1e9f9;
 
 .bgGreen {
   background-color: rgb(84, 226, 84);
+}
+
+.bgYellow {
+  background-color: #fcfdab;
 }
 
 .colorRed {

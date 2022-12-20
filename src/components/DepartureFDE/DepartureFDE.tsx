@@ -10,6 +10,7 @@ import { airborneListActions } from '../../state/slices/airborneSlice';
 import { AcType } from '../../functions/genACID';
 import { DepFDE } from '../../functions/genDepFdeData';
 import { SatelliteData } from '../../data/satelliteCollection';
+import useInterval from 'use-interval';
 
 // interface DepartureFDEProps {
 //   acFullName: string;
@@ -55,6 +56,7 @@ function DepartureFDE({
   const [currentAlt, setCurrentAlt] = useState(assignedAlt);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [onCourse, setOnCourse] = useState(false);
+  const [isAirborne, setIsAirborne] = useState(false);
 
   const isHandoffAlt = currentAlt === Number(handoffAlt);
 
@@ -82,6 +84,10 @@ function DepartureFDE({
     if (assignedHeading === 'No turns') return '';
     return assignedHeading;
   }
+
+  useInterval(() => {
+    setIsAirborne(true);
+  }, 8000);
 
   return (
     <section className={clsx(styles.FlightStrip, styles.flexCol)}>
@@ -111,6 +117,40 @@ function DepartureFDE({
                   }}
                 >
                   Reset
+                </button>
+              </div>
+              <div className={styles.row2}>
+                <button
+                  onClick={() => {
+                    setCurrentAlt(50);
+                    closeModal();
+                  }}
+                >
+                  50
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrentAlt(60);
+                    closeModal();
+                  }}
+                >
+                  60
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrentAlt(70);
+                    closeModal();
+                  }}
+                >
+                  70
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrentAlt(130);
+                    closeModal();
+                  }}
+                >
+                  130
                 </button>
               </div>
               <div className={styles.row2}>
@@ -192,7 +232,9 @@ function DepartureFDE({
             {filedAlt}
           </div>
         </div>
-        <div className={clsx(styles.col3)}></div>
+        <div
+          className={clsx(styles.col3, { [styles.bgYellow]: !isAirborne })}
+        ></div>
         <div className={clsx(styles.col4)}>
           <div className={clsx(styles.filedRoute)}>{filedRoute}</div>
         </div>

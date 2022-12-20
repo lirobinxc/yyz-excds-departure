@@ -123,7 +123,7 @@ function App() {
   return (
     <div className="App">
       <div className="headerRow">
-        <h2>YYZ Departure EXCDS v1.4a</h2>
+        <h2>YYZ Departure EXCDS v1.5</h2>
         <div className="optionsRow">
           <button className="refreshButton" onClick={refreshSeq}>
             Refresh
@@ -195,7 +195,7 @@ function App() {
               </label>
               <h3>"Timed Add" mode options (adds new strip every X seconds)</h3>
               <label>
-                Timed add interval (min 1 second){' '}
+                {'Timed add interval (suggested > 10 secs)'}{' '}
                 <input
                   type="number"
                   name="timedAdd"
