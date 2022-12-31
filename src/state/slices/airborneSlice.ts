@@ -13,7 +13,7 @@ function genFdeList(
 ) {
   const defaultDepSequence: DepFDE[] = [];
 
-  for (let i = 1; i <= count; i++) {
+  for (let i = 0; i < count; i++) {
     if (onlySatellites) {
       defaultDepSequence.push(genSatFdeData(rwyId));
       continue;
@@ -24,7 +24,65 @@ function genFdeList(
       defaultDepSequence.push(genSatFdeData(rwyId));
       continue;
     }
-    defaultDepSequence.push(genDepFdeData(rwyId));
+
+    // VDP Same Sid logic
+    const currDepFde = genDepFdeData(rwyId);
+    const currDepSid = currDepFde.filedRoute.split(' ')[0];
+    console.log({ tempDepFdeSid: currDepSid });
+
+    if (i === 0) {
+      defaultDepSequence.push(currDepFde);
+      continue;
+    }
+
+    const prevDepSid =
+      defaultDepSequence[defaultDepSequence.length - 1].filedRoute.split(
+        ' '
+      )[0];
+
+    if (currDepSid === prevDepSid) {
+      i--;
+      continue;
+    }
+
+    const sameSidsNorthbound = ['KISEP', 'IKLEN', 'SEDOG'];
+    const sameSidsSouthbound = ['MIXUT', 'ANCOL', 'PERLO', 'PEMBA'];
+    const sameSidsSouthbound06s = [
+      'MIXUT',
+      'ANCOL',
+      'PERLO',
+      'PEMBA',
+      'OAKVL',
+      'DUSOM',
+      'BETES',
+      'RIGUS',
+    ];
+
+    if (
+      sameSidsNorthbound.includes(currDepSid) &&
+      sameSidsNorthbound.includes(prevDepSid)
+    ) {
+      i--;
+      continue;
+    }
+
+    if (
+      sameSidsSouthbound.includes(currDepSid) &&
+      sameSidsSouthbound.includes(prevDepSid)
+    ) {
+      i--;
+      continue;
+    }
+    if (
+      sameSidsSouthbound06s.includes(currDepSid) &&
+      sameSidsSouthbound06s.includes(prevDepSid) &&
+      currDepFde.yyzRunwayId === RunwayId['05, 06LR']
+    ) {
+      i--;
+      continue;
+    }
+
+    defaultDepSequence.push(currDepFde);
   }
 
   return defaultDepSequence;

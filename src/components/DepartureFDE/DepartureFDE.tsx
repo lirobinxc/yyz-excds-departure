@@ -50,6 +50,7 @@ function DepartureFDE({
   remarks,
   transponderCode,
   yyzRunwayId,
+  isVDP,
 }: DepFDE) {
   const dispatch = useAppDispatch();
 
@@ -97,7 +98,7 @@ function DepartureFDE({
   return (
     <section className={clsx(styles.FlightStrip, styles.flexCol)}>
       <div className={clsx(styles.topRow, styles.flexRow)}>
-        <div className={clsx(styles.col1)}>
+        <div className={clsx(styles.col1, { [styles.bgYellow]: isVDP })}>
           <div className={clsx(styles.acId)}>{acId}</div>
         </div>
         <div className={clsx(styles.col2)}>

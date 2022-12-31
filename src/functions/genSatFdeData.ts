@@ -126,6 +126,7 @@ export function genSatFdeData(rwyId: RunwayId) {
     satFdeData: route,
     transponderCode,
     yyzRunwayId,
+    isVDP: false,
   };
 
   return satFDE;
