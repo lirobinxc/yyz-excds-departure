@@ -98,7 +98,7 @@ export function genDepFdeData(rwyId: RunwayId) {
 
   const acFullName = `${aircraft.wtc}/${aircraft.model}/${aircraft.equipment}`;
 
-  const isVDP = _.random(1, 10) > 0; // should be > 6
+  const isVDP = _.random(1, 10) > 7; // should be > 6
 
   // const satRouteData = genSatFdeData(rwyId);
 
