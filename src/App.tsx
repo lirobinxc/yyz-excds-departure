@@ -19,7 +19,7 @@ interface ILocalStorage extends Storage {
   onlySatellites?: boolean;
 }
 
-const APP_VERSION_NUM = '1.7';
+const APP_VERSION_NUM = '1.8';
 
 const localStorage: ILocalStorage = window.localStorage;
 

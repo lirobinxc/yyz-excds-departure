@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
 import { RunwayId } from '../../data/sidsCollection';
+import { AcType } from '../../functions/genACID';
 import { DepFDE, genDepFdeData } from '../../functions/genDepFdeData';
 import { genSatFdeData } from '../../functions/genSatFdeData';
 import type { RootState } from '../store';
@@ -35,12 +36,15 @@ function genFdeList(
       continue;
     }
 
-    const prevDepSid =
-      defaultDepSequence[defaultDepSequence.length - 1].filedRoute.split(
-        ' '
-      )[0];
+    const prevDepFde = defaultDepSequence[defaultDepSequence.length - 1];
+    const prevDepSid = prevDepFde.filedRoute.split(' ')[0];
 
     if (currDepSid === prevDepSid) {
+      i--;
+      continue;
+    }
+
+    if (currDepFde.acType === AcType.Prop && currDepFde.isVDP) {
       i--;
       continue;
     }
