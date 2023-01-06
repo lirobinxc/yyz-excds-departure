@@ -19,6 +19,8 @@ interface ILocalStorage extends Storage {
   onlySatellites?: boolean;
 }
 
+const APP_VERSION_NUM = '1.7';
+
 const localStorage: ILocalStorage = window.localStorage;
 
 // const localStorageRunwayId =
@@ -123,7 +125,7 @@ function App() {
   return (
     <div className="App">
       <div className="headerRow">
-        <h2>YYZ Departure EXCDS v1.6</h2>
+        <h2>YYZ Departure EXCDS {APP_VERSION_NUM}</h2>
         <div className="optionsRow">
           <button className="refreshButton" onClick={refreshSeq}>
             Refresh

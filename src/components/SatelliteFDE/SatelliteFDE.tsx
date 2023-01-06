@@ -47,9 +47,9 @@ function SatelliteFDE({
   const isOverflight = satType === 'Overflight';
 
   const isYhmArrival = isArrival && satFdeData.Destination === 'CYHM';
-  const isYpqOrYooArrival =
-    (isArrival && satFdeData.Destination === 'CYPQ') ||
-    satFdeData.Destination === 'CYOO';
+  const isYpqOrYooArr =
+    satFdeData.Destination === 'CYPQ' || satFdeData.Destination === 'CYOO';
+  const isYzdDep = satFdeData.DeparturePoint === 'CYZD';
 
   const hasExitAltitude = satFdeData.ExitAltitude !== '';
 
@@ -126,7 +126,7 @@ function SatelliteFDE({
     return (
       <div
         className={clsx(styles.col1, {
-          [styles.borderRight]: !isYpqOrYooArrival,
+          [styles.borderRight]: !isYpqOrYooArr && !isYzdDep,
         })}
       >
         <div className={clsx(styles.acId)}>{acId}</div>
@@ -139,7 +139,7 @@ function SatelliteFDE({
       <div
         className={clsx(styles.col8, {
           [styles.bgCorrectAlt]: isCorrectHandoffAlt(),
-          [styles.borderRight]: isYpqOrYooArrival,
+          [styles.borderRight]: isYpqOrYooArr || isYzdDep,
         })}
         onClick={removeStrip}
       >
@@ -151,11 +151,11 @@ function SatelliteFDE({
   return (
     <section
       className={clsx(styles.FlightStrip, styles.flexCol, {
-        [styles.bgGreen]: isYpqOrYooArrival,
+        [styles.bgGreen]: isYpqOrYooArr,
       })}
     >
       <div className={clsx(styles.topRow, styles.flexRow)}>
-        {isYpqOrYooArrival ? displayRunwayBox() : displayAcidBox()}
+        {isYpqOrYooArr || isYzdDep ? displayRunwayBox() : displayAcidBox()}
         <div className={clsx(styles.col2)}>
           <div className={clsx(styles.ETA)}>{ETA}Z</div>
           <div className={clsx(styles.transponderCode)}>{transponderCode}</div>
@@ -255,10 +255,11 @@ function SatelliteFDE({
           <div
             className={clsx(styles.assignedAlt, {
               [styles.colorRed]: isYhmArrival && currentAlt === 160,
+              [styles.colorRed]: currentAlt === 15,
             })}
             onClick={openModal}
           >
-            {currentAlt === 0 ? '' : currentAlt}
+            {currentAlt === 0 ? '' : currentAlt === 15 ? '1.5' : currentAlt}
           </div>
         </div>
         <div className={clsx(styles.col5)}>
@@ -276,7 +277,7 @@ function SatelliteFDE({
         <div className={clsx(styles.col7)}>
           <div className={clsx(styles.isNADP1)}>{isNADP1 && 1}</div>
         </div>
-        {isYpqOrYooArrival ? displayAcidBox() : displayRunwayBox()}
+        {isYpqOrYooArr || isYzdDep ? displayAcidBox() : displayRunwayBox()}
       </div>
       <div className={clsx(styles.bottomRow, styles.flexRow)}>
         <div className={clsx(styles.col1, { [styles.bgWhite]: isQ400 })}>

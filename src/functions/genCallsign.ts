@@ -5,10 +5,14 @@ export function genCallsign({
   isC208,
   isSatYTZ,
   isSatYKZ,
+  isSatYZD,
+  isSatYHM,
 }: {
   isC208?: boolean;
   isSatYTZ?: boolean;
   isSatYKZ?: boolean;
+  isSatYZD?: boolean;
+  isSatYHM?: boolean;
 }) {
   const random = _.random(1, 5);
 
@@ -20,6 +24,8 @@ export function genCallsign({
   if (isC208) operatorOnly = 'MAL';
   if (isSatYTZ) operatorOnly = 'POE';
   if (isSatYKZ) operatorOnly = 'PUL';
+  if (isSatYZD) operatorOnly = 'BBA';
+  if (isSatYHM) operatorOnly = 'CJT';
 
   const fullCallsign = `${operatorOnly}${num}`;
 

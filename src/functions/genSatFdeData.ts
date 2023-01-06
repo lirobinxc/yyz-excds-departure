@@ -47,7 +47,15 @@ export function genSatFdeData(rwyId: RunwayId) {
   const isC208 = aircraft.model === 'C208';
   const isSatYTZ = route.DeparturePoint === 'CYTZ';
   const isSatYKZ = route.DeparturePoint === 'CYKZ';
-  const callsign = genCallsign({ isC208, isSatYTZ, isSatYKZ });
+  const isSatYZD = route.DeparturePoint === 'CYZD';
+  const isSatYHM = route.Destination === 'CYHM';
+  const callsign = genCallsign({
+    isC208,
+    isSatYTZ,
+    isSatYKZ,
+    isSatYZD,
+    isSatYHM,
+  });
 
   // Set filed speed and altitude
   let filedTAS = 999;
